@@ -8,12 +8,12 @@
             :collapse="collapse"
             unique-opened
             router>
-        <el-submenu v-for="menu in menuConfig" :key="'menu' + menu.id" :index="menu.id">
+        <el-submenu v-for="(menu,index) in menuConfig" :key="index" :index="menu.icon">
             <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>{{menu.title}}</span>
             </template>
-            <el-menu-item v-for="submenu in menu.childrens" :key="submenu.id" :index="submenu.id">
+            <el-menu-item v-for="(submenu,i) in menu.subs" :key="i" :index="submenu.index">
                 <span slot="title">{{submenu.title}}</span>
             </el-menu-item>
         </el-submenu>
@@ -22,25 +22,29 @@
 
 <script>
     import {menuConfig} from "../../config/config";
-
+    import bus from './bus'
     export default {
         name: "SideMenu",
-        props:{
-            collapse:{
-                type: Boolean,
-                default: false
-            },
-
-        },
         data(){
             return{
-                menuConfig
+                menuConfig,
+                collapse: false
+            }
+        },
+        methods:{
+            get(){
+                console.log(this.menuConfig);
             }
         },
         computed:{
             activeRoute(){
                 return this.$route.meta.path
             }
+        },
+        created() {
+            bus.$on('collapseHeader', (msg) => {
+                this.collapse = msg
+            })
         }
     }
 </script>

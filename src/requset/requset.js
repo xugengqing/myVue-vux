@@ -6,16 +6,23 @@ const service = axios.create({
 });
 // 请求拦截器
 service.interceptors.request.use(config => {
-        console.log(config);
-        if (config.method === 'post'){
-            config.data = qs.stringify(config.data)
+    const token = localStorage.getItem('token');
+    if (config.method === 'post' || config.method === 'put') {
+        if (token) {
+            config.data = config.data || {};
+            config.data.token = token
         }
-        return config
-    },
-    error => {
-        return Promise.reject(error)
+        config.data = qs.stringify(config.data, {arrayFormat: 'repeat', allowDots: true})
+    } else if (config.method === 'delete' || config.method === 'get') {
+        if (token) {
+            config.params = config.params || {};
+            config.params.token = token
+        }
     }
-);
+    return config
+}, error => {
+    return Promise.reject(error)
+});
 // 请求结果返回拦截器
 service.interceptors.response.use(response => {
         return response.data

@@ -21,7 +21,35 @@ const router = new Router({
             children:[
                 {
                     path:'/department',
+                    meta:{
+                        title:"部门管理",
+                        name:'department'
+                    },
                     component: () => import(/* webpackChunkName: "department" */ '@/views/department/Department.vue'),
+                },
+                {
+                    path:'/employee',
+                    meta:{
+                        title:"员工管理",
+                        name:'employee'
+                    },
+                    component: () => import(/* webpackChunkName: "employee" */ '@/views/employee/Employee.vue'),
+                },
+                {
+                    path:'/permission',
+                    meta:{
+                        title:"权限管理",
+                        name:'permission'
+                    },
+                    component: () => import(/* webpackChunkName: "permission" */ '@/views/permission/Permission.vue'),
+                },
+                {
+                    path:'/role',
+                    meta:{
+                        title:"角色管理",
+                        name:'role'
+                    },
+                    component: () => import(/* webpackChunkName: "role" */ '@/views/role/Role.vue'),
                 }
             ]
         }

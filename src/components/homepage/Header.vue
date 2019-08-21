@@ -1,9 +1,9 @@
 <template>
     <div class="header-wrapper">
         <h3>叩丁狼客户关系管理后台</h3>
-        <el-button type="info" class="collapse-icon"><i class="el-icon-menu"></i></el-button>
+        <el-button type="info" class="collapse-icon"><i class="el-icon-menu" @click="collapseFn()"></i></el-button>
         <el-dropdown trigger="click" class="header-dropdown" @command="handleCommand">
-          <el-button type="info">用户登录<i class="el-icon-s-custom"></i></el-button>
+          <el-button type="info">{{username}}<i class="el-icon-s-custom"></i></el-button>
           <el-dropdown-menu slot="dropdown" class="header-btn">
             <el-dropdown-item><i class="el-icon-switch-button"></i>用户注销</el-dropdown-item>
           </el-dropdown-menu>
@@ -12,16 +12,22 @@
 </template>
 
 <script>
+    import bus from "./bus";
 export default {
     name: "Header",
     data(){
         return{
-            username:''
+            username:localStorage.getItem('username'),
+            collapse: false
         }
     },
     methods:{
         handleCommand(){
 
+        },
+        collapseFn() {
+            this.collapse = !this.collapse;
+            bus.$emit('collapseHeader', this.collapse)
         }
     }
 }

@@ -15,15 +15,21 @@
 </template>
 
 <script>
-export default {
-    name: "Content",
-    props: {
-        collapse: {
-            type: Boolean,
-            default: false
+    import bus from './bus'
+
+    export default {
+        name: "Content",
+        data(){
+            return{
+                collapse: false
+            }
+        },
+        created() {
+            bus.$on('collapseHeader', (msg) => {
+                this.collapse = msg
+            })
         }
-    },
-}
+    }
 </script>
 
 <style lang="less" scoped>
@@ -45,6 +51,7 @@ export default {
             height: 100%;
             overflow-y: auto;
         }
+
         .footer_left {
             float: left;
             font-size: 12px;
